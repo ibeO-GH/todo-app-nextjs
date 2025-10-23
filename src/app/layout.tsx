@@ -1,15 +1,11 @@
-"use client";
-
-import React from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import type { Metadata } from "next";
+import { ReactQueryProvider } from "@/lib/ReactQueryProvider";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
-const queryClient = new QueryClient();
-
-export const metadata = {
+export const metadata: Metadata = {
   title: "MyTodo App",
+  description: "A modern Todo app built with Next.js and React Query.",
 };
 
 export default function RootLayout({
@@ -20,10 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("min-h-screen bg-gray-900 text-gray-100 font-sans")}>
-        <QueryClientProvider client={queryClient}>
-          {children}
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>
   );
