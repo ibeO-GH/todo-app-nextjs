@@ -3,9 +3,9 @@ import { ReactQueryProvider } from "@/lib/ReactQueryProvider";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "MyTodo App",
-  description: "A modern Todo app built with Next.js and React Query.",
+  description: "Todo app migrated to Next.js with React Query and Tailwind",
 };
 
 export default function RootLayout({
