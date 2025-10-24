@@ -1,11 +1,15 @@
 "use client";
 
+import React from "react";
 import TodoDetail from "@/components/TodoDetail";
 
-interface Props {
-  params: { id: string };
-}
+export default function TodoDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  // Unwrap the async params object
+  const { id } = React.use(params);
 
-export default function TodoDetailPage({ params }: Props) {
-  return <TodoDetail id={params.id} />;
+  return <TodoDetail id={id} />;
 }

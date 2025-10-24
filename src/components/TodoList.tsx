@@ -14,12 +14,12 @@ import {
   SelectItem,
 } from "./ui/select";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import type { Todo } from "../types/todo"; // ✅ Import your Todo type
+import type { Todo } from "../types/todo";
 
 export default function TodoList(): React.JSX.Element {
   const queryClient = useQueryClient();
 
-  // ✅ Explicit types for state variables
+  // Explicit types for state variables
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<
@@ -31,7 +31,7 @@ export default function TodoList(): React.JSX.Element {
     null
   );
 
-  // ✅ Query for todos
+  // Query for todos
   const {
     data: todos = [],
     isLoading,
@@ -61,7 +61,7 @@ export default function TodoList(): React.JSX.Element {
     },
   });
 
-  // ✅ Create Todo
+  // Create Todo
   const createTodo = useMutation({
     mutationFn: async (newTodo: Omit<Todo, "id">) => {
       const id = Date.now();
@@ -76,7 +76,7 @@ export default function TodoList(): React.JSX.Element {
     },
   });
 
-  // ✅ Delete Todo
+  // Delete Todo
   const deleteTodo = useMutation({
     mutationFn: async (id: number) => {
       await db.todos.delete(id);
@@ -88,7 +88,7 @@ export default function TodoList(): React.JSX.Element {
     },
   });
 
-  // ✅ Update Todo
+  // Update Todo
   const updateTodo = useMutation({
     mutationFn: async (data: Todo) => {
       await db.todos.update(data.id, data);
@@ -100,7 +100,7 @@ export default function TodoList(): React.JSX.Element {
     },
   });
 
-  // ✅ Filtering and Pagination
+  // Filtering and Pagination
   const todosPerPage = 10;
 
   const filteredTodos = todos.filter((todo) => {
@@ -123,7 +123,7 @@ export default function TodoList(): React.JSX.Element {
     currentPage * todosPerPage
   );
 
-  // ✅ Loading / Error states
+  // Loading / Error states
   if (isLoading)
     return <p className="text-gray-300 text-center mt-12">Loading todos...</p>;
 
@@ -134,7 +134,7 @@ export default function TodoList(): React.JSX.Element {
       </p>
     );
 
-  // ✅ Main Component UI
+  // Main Component UI
   return (
     <div className="p-4 sm:p-6 max-w-3xl mx-auto bg-gray-700 min-h-screen rounded-lg shadow-lg border border-gray-600">
       {/* Search & Filter */}

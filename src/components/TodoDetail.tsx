@@ -10,9 +10,24 @@ interface TodoDetailProps {
 }
 
 const fetchTodo = async (id: string): Promise<Todo> => {
-  const todo = await db.todos.get(Number(id));
-  if (!todo) throw new Error("Todo not found");
-  return todo;
+  const numericId = Number(id);
+
+  // Try getting from IndexedDB
+  let todo = await db.todos.get(numericId);
+
+  // If not found, fetch from JSONPlaceholder
+  if (!todo) {
+    const res = await fetch(
+      `https://jsonplaceholder.typicode.com/todos/${numericId}`
+    );
+    if (!res.ok) {
+      throw new Error("Failed to fetch todo");
+    }
+    const fetchedTodo: Todo = await res.json();
+    todo = fetchedTodo;
+  }
+
+  return todo as Todo; // ensures the return type is always Todo
 };
 
 export default function TodoDetail({ id }: TodoDetailProps) {
@@ -41,6 +56,7 @@ export default function TodoDetail({ id }: TodoDetailProps) {
       <p>ID: {data.id}</p>
       <p>Title: {data.title}</p>
       <p>Status: {data.completed ? "✅ Completed" : "❌ Incomplete"}</p>
+
       <Button onClick={() => history.back()}>← Back</Button>
     </div>
   );
