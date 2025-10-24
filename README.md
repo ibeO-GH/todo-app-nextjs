@@ -152,10 +152,10 @@ CRUD operations are handled in:
 src/
 ├── app/
 │ ├── todos/
-│ │ └── [id]/page.tsx # Dynamic route for todo details
-│ ├── error.tsx # Global error boundary
-│ ├── layout.tsx # Root layout with providers
-│ └── page.tsx # Home page (todo list + pagination)
+│ │ └── [id]/page.tsx
+│ ├── error.tsx
+│ ├── layout.tsx
+│ └── page.tsx
 ├── components/
 │ ├── TodoDetail.tsx
 │ ├── ErrorBoundary.tsx
@@ -173,7 +173,7 @@ src/
 
 ## Live Demo
 
-### Hosted on Vercel:
+### Hosted on Vercel
 
 https://todo-app-nextjs-steel.vercel.app/
 
@@ -204,15 +204,23 @@ Special thanks to:
 This version was migrated from React + Vite (TypeScript) to Next.js 16 (App Router) for improved structure and scalability.
 
 Key Changes
-Area React + Vite Next.js Version
-Routing Manual with TanStack Router File-based routing via src/app
-Entry Point main.tsx layout.tsx and page.tsx
-Build Tool Vite Next.js (Webpack/Turbopack)
-Dev Port 5173 3000
-Metadata index.html head tags export const metadata in layout.tsx
-Error Handling Custom ErrorBoundary Built-in error.tsx + fallback UI
-Pagination & Data Same logic preserved Fully compatible via use client components
-Offline Persistence Dexie.js (same) Dexie.js (migrated with Next.js client hooks)
-Styling Tailwind v4 Tailwind v4 (identical config)
+
+- Routing: (React + Vite) - Manual with TanStack Router, (Next.js Version) - File-based routing via src/app.
+
+- Entry Point: (React + Vite) - main.tsx, (Next.js Version) - layout.tsx and page.tsx.
+
+* Build Tool: (React + Vite) - Vite, (Next.js Version) - Next.js (Webpack).
+
+* Dev Port: (React + Vite) - 5173, (Next.js Version) - 3000.
+
+* Metadata: (React + Vite) - index.html head tags, (Next.js Version) - export const metadata in layout.tsx.
+
+* Error Handling: (React + Vite) - Custom ErrorBoundary, (Next.js Version) - Built-in error.tsx + fallback UI.
+
+* Pagination & Data: (React + Vite) -Same logic preserved, (Next.js Version) - Fully compatible via use client components.
+
+* Offline Persistence: (React + Vite) - Dexie.js (same), (Next.js Version) - Dexie.js (migrated with Next.js client hooks).
+
+* Styling: (React + Vite) - Tailwind v4, (Next.js Version) - Tailwind v4 (identical config).
 
 All core logic, UI, pagination, and CRUD behaviors remain exactly the same as the TypeScript version — just restructured for Next.js’s App Router.
