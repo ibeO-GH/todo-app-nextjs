@@ -23,7 +23,7 @@ You can explore the previous TypeScript version here: [TypeScript-Version](https
 - Paginated todo list (10 items per page)
 - Inline editing & delete confirmation modals
 - Dark-themed, accessible UI using **Tailwind v4** + **shadcn/ui**
-- Modular, maintainable architecture
+- Modular and maintainable file-based routing using Next.js App Router.
 
 ---
 
@@ -42,7 +42,7 @@ npm install
 
 npm run dev
 
-The app runs locally at http://localhost:5173 (Vite default) or the port specified by your setup\*\*
+The app runs locally at http://localhost:3000/ (Next.js default).
 
 ---
 
@@ -50,73 +50,60 @@ The app runs locally at http://localhost:5173 (Vite default) or the port specifi
 
 - npm run dev - Start development Server.
 - npm run build - Build the app for production.
-- npm run preview - Preview the production build.
+- npm run start - Run the production build locally.
 - npm run lint - Run ESLint checks.
 
 ---
 
 ## 🧱 Technology Stack
 
-- Framework - React 19 + TypeScript
-- Build Tool - Vite
+- Framework - Next.js 16 (App Router)
+- Language - TypeScript
 - Styling - Tailwind CSS v4 + shadcn/ui
 - State & Data - TanStack Query (React Query)
-- Database - Dexie.js - for IndexedDB offline persistence
-- Routing - TanStack Router
+- Database - Dexie.js (IndexedDB offline persistence)
+- Deployment – Vercel
 - Icons - Lucide React
 
 ---
 
 ## 🧠 Architecture & Decisions
 
-- Dexie.js - Provides offline-first data storage and persistence via IndexedDB
+- Next.js App Router - Provides file-based routing, server components, and better performance.
 
-- React Query - Handles async caching, background updates, and mutation tracking
+- React Query - Handles caching, background updates, and mutation efficiently.
 
-- Tailwind v4 + shadcn/ui - Offers design consistency and a scalable styling system
+- Tailwind v4 + shadcn/ui - Provides design consistency and modern, responsive styling.
 
-- Component-based architecture - Clear separation of logic for maintainability
+- Dexie.js – Enables offline-first data storage and persistence via IndexedDB.
 
-- Error Boundaries - Graceful fallback for runtime or route-level errors
+- Error Boundaries - Ensures graceful handling of runtime or route-level errors.
 
 ---
 
 ## 📡 API & Data Flow
 
-Although initially designed to fetch from [JSONPlaceholder](https://jsonplaceholder.typicode.com/), the app primarily uses IndexedDB (Dexie.js) for all CRUD operations.
+Although designed to use [JSONPlaceholder](https://jsonplaceholder.typicode.com/), for demo data, all CRUD operations are persisted offline using IndexedDB.
 
-- Endpoints (for demo/reference)
+- Endpoints (fo reference)
 
 GET /todos
 
-- Fetches a list of todos (limited to 20 in the app)
-  Response:[
-  {
-  "userId": 198,
-  "id": 198,
-  "title": "quis eius est sint explicabo",
-  "completed": false
-  },
-  ...
-  ]
+- Fetches a list of todos (limited to 20 items)
 
 GET /todos/:id
 
 - Fetches a single todo by ID.
-  Response:[
-  "userId": 198,
-  "id": 198,
-  "title": "quis eius est sint explicabo",
-  "completed": false
-  ];
+
+---
 
 ## Query Flow
 
 - useQuery() - Reads todos from IndexedDB
 
-- useMutation() - Manages create/update/delete actions
+- useMutation() - Handles create/update/delete actions
 
-- On mutation - Queries are invalidated to auto-refresh the UI
+- On mutation, queries are invalidated to auto-refresh the UI
 
 ---
 
@@ -127,19 +114,10 @@ GET /todos/:id
 
 CRUD operations are handled in:
 
-- todoDb.ts
-- TodoList.tsx
-- TodoDetail.tsx
-
----
-
-## Screenshots
-
-<img src="/screenshots/search-filter.png" alt="search and filter fxn" />
-    <img src="/screenshots/add-todo.png" alt="add todo fxn" />
-    <img src="/screenshots/edit-todo.png" alt="edit todo" />
-    <img src="/screenshots/delete-todo.png" alt="delete todo" />
-```
+- src/db/todoDb.ts
+- src/app/page.tsx
+- src/app/todos/[id]/page.tsx
+- src/components/TodoDetail.tsx
 
 ---
 
@@ -161,29 +139,35 @@ CRUD operations are handled in:
 
 - Light/Dark theme toggle
 
-- Add due dates & priority labels
+- Due dates & priority labels
 
-- Export/import todos as JSON/CSV for backup
+- Export/import todos as JSON/CSV
 
-- Lazy loading for performance at scale
+- Lazy loading for large datasets
 
 ---
 
 ## Project Structure
 
 src/
+├── app/
+│ ├── todos/
+│ │ └── [id]/page.tsx # Dynamic route for todo details
+│ ├── error.tsx # Global error boundary
+│ ├── layout.tsx # Root layout with providers
+│ └── page.tsx # Home page (todo list + pagination)
 ├── components/
-│ ├── TodoList.tsx
 │ ├── TodoDetail.tsx
-│ ├── ui/
-│ └── ErrorBoundary.tsx
+│ ├── ErrorBoundary.tsx
+│ └── ui/
 ├── db/
 │ └── todoDb.ts
 ├── lib/
 │ └── utils.ts
-├── App.tsx
-├── main.tsx
-└── index.css
+├── styles/
+│ └── globals.css
+└── types/
+└── todo.ts
 
 ---
 
@@ -191,23 +175,15 @@ src/
 
 ### Hosted on Vercel:
 
-https://todo-app-react-yrta.vercel.app/
-
-### Demo Video:
-
-[Watch on YouTube](https://youtu.be/SfV57b3TCrQ)
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License © 2025 [Ibe Okorafor](https://github.com/ibeO-GH)
+https://todo-app-nextjs-steel.vercel.app/
 
 ---
 
 ## Acknowledgments
 
 Special thanks to:
+
+- Next.js Team
 
 - shadcn/ui
 
@@ -223,4 +199,20 @@ Special thanks to:
 
 ---
 
-## 📹
+## Migration Notes (React + Vite → Next.js)
+
+This version was migrated from React + Vite (TypeScript) to Next.js 16 (App Router) for improved structure and scalability.
+
+Key Changes
+Area React + Vite Next.js Version
+Routing Manual with TanStack Router File-based routing via src/app
+Entry Point main.tsx layout.tsx and page.tsx
+Build Tool Vite Next.js (Webpack/Turbopack)
+Dev Port 5173 3000
+Metadata index.html head tags export const metadata in layout.tsx
+Error Handling Custom ErrorBoundary Built-in error.tsx + fallback UI
+Pagination & Data Same logic preserved Fully compatible via use client components
+Offline Persistence Dexie.js (same) Dexie.js (migrated with Next.js client hooks)
+Styling Tailwind v4 Tailwind v4 (identical config)
+
+All core logic, UI, pagination, and CRUD behaviors remain exactly the same as the TypeScript version — just restructured for Next.js’s App Router.
